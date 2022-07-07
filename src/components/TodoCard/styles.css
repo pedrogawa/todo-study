@@ -1,0 +1,165 @@
+.todo-card-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-direction: column;
+
+  width: 300px;
+  min-height: 186px;
+
+  background-color: white;
+
+  border: 2px #e0d6d5 solid;
+
+  padding: 1rem;
+
+  border-radius: 1rem;
+}
+
+.todo-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  width: 100%;
+
+  flex-direction: row;
+}
+
+.todo-card-title {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+
+  
+
+  margin-bottom: 1.2rem;
+}
+
+.todo-card-title > strong {
+  font-size: 1.2rem;
+}
+
+.todo-card-title > span {
+  font-size: 1rem;
+  color: #948f8e;
+  font-weight: bold;
+}
+
+.todo-card-icon {
+  border: 2px #ada4a3 solid;
+  padding: 0.3rem;
+
+  cursor: pointer;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.todo-card-progress-container {
+  width: 100%;
+
+  margin-bottom: 1rem;
+}
+
+.todo-card-progress-bar {
+  width: 100%;
+  background-color: #e0d6d5;
+  border-radius: 1rem;
+}
+
+.todo-card-progress-bar > div {
+  height: 0.3rem;
+  border-radius: 1rem;
+
+  transition: width 0.4s; 
+}
+
+.todo-card-progress-header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+
+  cursor: pointer;
+
+  margin-bottom: 0.6rem;
+}
+
+.todo-card-progress-header-left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.todo-card-progress-header-left > span {
+  font-size: 1.2rem;
+  color: #948f8e;
+  margin-left: 0.4rem;
+}
+
+.todo-card-progress-header-left > svg {
+  color: #948f8e;
+}
+
+.todo-subtasks {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
+
+
+  width: 100%;
+
+  height: fit-content;
+
+  transition: height 1.2s;
+
+
+  font-weight: bold;
+
+}
+
+.todo-subtasks.hidden {
+  display: none;
+  height: 0;
+
+  transition: height 1.2s;
+}
+
+.subtasks {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  cursor: pointer;
+
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.todo-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  align-self: flex-start;
+}
+
+.todo-card-date {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #e0d6d5;
+  border-radius: 1rem;
+  padding: 0.6rem 1rem;
+
+  color: #948f8e;
+
+  font-weight: bold;
+}
