@@ -6,7 +6,7 @@ export default interface Todo {
   status: "TODO" | "PROGRESS" | "DONE";
 }
 
-interface Task {
+export interface Task {
   id: number;
   title: string;
   isDone: boolean;

@@ -54,3 +54,21 @@
 
 }
 
+
+.subtask-input-container {
+  border-bottom: 2px solid #d6d0d0;
+}
+
+.subtask-input-container > input {
+  margin-top: 1rem;
+  padding: 0.3rem;
+
+  border: none;
+
+  border-radius: 1rem;
+
+  width: 300px;
+
+  outline: none;
+}
+

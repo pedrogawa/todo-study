@@ -3,6 +3,8 @@ import { useDispatch } from "react-redux";
 
 import { addTodo } from "../../hooks/Todo/todoSlice";
 
+import { Task } from "../../interface/Todo";
+
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   SubmitHandler,
@@ -19,7 +21,7 @@ import "./styles.css";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsPlus } from "react-icons/bs";
 
-import FormInput from "../FormInput";
+import { FormInput, DynamicInput } from "../FormInput";
 
 export default function AddTodoModal() {
   const dispatch = useDispatch();
@@ -32,44 +34,35 @@ export default function AddTodoModal() {
     control: methods.control,
   });
 
-  console.log(fields.length);
-
   const { errors } = methods.formState;
 
   const handleForm: SubmitHandler<FormData> = useCallback(
-    async ({ title, subtitle }) => {
+    async ({ title, subtitle, tasks }) => {
+      console.log(title, subtitle, tasks);
       await new Promise((resolve) => setTimeout(resolve, 2000));
-      // dispatch(
-      //   addTodo({
-      //     id: 2,
-      //     title,
-      //     subtitle,
-      //     tasks: [
-      //       {
-      //         id: 1,
-      //         title: "Modal",
-      //         isDone: false,
-      //       },
-      //     ],
-      //     status: "TODO",
-      //   })
-      // );
+      const test: Task[] = tasks.map((task, index) => {
+        return {
+          id: index,
+          title: task.title,
+          isDone: task.isDone,
+        };
+      });
+
+      dispatch(
+        addTodo({
+          id: 2,
+          title,
+          subtitle,
+          tasks: test,
+          status: "TODO",
+        })
+      );
     },
-    []
+    [dispatch]
   );
 
   const addInput = () => {
-    let inputDiv = document.querySelector<HTMLDivElement>(".subtask-container");
-
-    if (inputDiv) {
-      const div = document.createElement("div");
-      div.classList.add("subtask-input-container");
-      const input = document.createElement("input");
-
-      div.appendChild(input);
-
-      inputDiv.appendChild(div);
-    }
+    append({ title: "", isDone: false });
   };
 
   return (
@@ -94,7 +87,15 @@ export default function AddTodoModal() {
                 <BsPlus />
               </div>
             </div>
-            <div className="subtask-container" />
+            <div className="subtask-container">
+              {fields.map((item, index) => (
+                <DynamicInput
+                  key={index}
+                  id={index}
+                  error={errors?.tasks?.[index]?.title}
+                />
+              ))}
+            </div>
             <button type="submit">Submit</button>
           </form>
         </FormProvider>
