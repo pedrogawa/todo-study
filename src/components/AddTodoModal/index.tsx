@@ -40,7 +40,7 @@ export default function AddTodoModal() {
     async ({ title, subtitle, tasks }) => {
       console.log(title, subtitle, tasks);
       await new Promise((resolve) => setTimeout(resolve, 2000));
-      const test: Task[] = tasks.map((task, index) => {
+      const tasksMapped: Task[] = tasks.map((task, index) => {
         return {
           id: index,
           title: task.title,
@@ -53,7 +53,7 @@ export default function AddTodoModal() {
           id: 2,
           title,
           subtitle,
-          tasks: test,
+          tasks: tasksMapped,
           status: "TODO",
         })
       );
