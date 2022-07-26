@@ -1,7 +1,8 @@
 import { useEffect, useCallback, useMemo } from "react";
 
-import { useDispatch } from "react-redux";
-import { subTaskIsDone } from "../../hooks/Todo/todoSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { subTaskIsDone, updateTaskStatus } from "../../hooks/Todo/todoSlice";
+import { selectTodoCards } from "../../hooks/store";
 
 import { BsListUl, BsThreeDots } from "react-icons/bs";
 import { AiOutlineCheck } from "react-icons/ai";
@@ -16,6 +17,7 @@ interface TodoCardProps {
 
 export default function TodoCard({ todo }: TodoCardProps) {
   const dispatch = useDispatch();
+  const todos = useSelector(selectTodoCards);
 
   const mappedSubTasksTitle = useMemo(() => {
     return todo.tasks.map((subtask) => {
@@ -29,6 +31,7 @@ export default function TodoCard({ todo }: TodoCardProps) {
 
   const mappedSubTasks = useMemo(() => {
     return {
+      id: todo.id,
       title: todo.tasks.map((a) => a),
       todo: todo.tasks.filter((a) => a.isDone === true).length,
       done: todo.tasks.length,
@@ -41,7 +44,9 @@ export default function TodoCard({ todo }: TodoCardProps) {
       mappedSubTasks.done
     ).toFixed(2);
 
-    const progressBar = document.querySelector<HTMLDivElement>("#progress-bar");
+    const progressBar = document.querySelector<HTMLDivElement>(
+      `#progress-bar-${mappedSubTasks.id}`
+    );
 
     if (progressBar) {
       progressBar.style.width = `${percentage}%`;
@@ -53,23 +58,26 @@ export default function TodoCard({ todo }: TodoCardProps) {
         progressBar.style.backgroundColor = "green";
       }
     }
-  }, [mappedSubTasks]);
+  }, [mappedSubTasks, todos]);
 
-  const showSubTasks = () => {
-    let subTasks = document.querySelector<HTMLElement>(".todo-subtasks");
+  const showSubTasks = useCallback((id: number) => {
+    const subTask = document.querySelector<HTMLElement>(`.todo-subtasks-${id}`);
 
-    if (subTasks?.classList.contains("hidden")) {
-      subTasks?.classList.remove("hidden");
-    } else {
-      subTasks?.classList.add("hidden");
+    if (subTask) {
+      if (subTask.style.display === "none") {
+        subTask.style.display = "";
+        subTask.style.maxHeight = "fit-content";
+      } else {
+        subTask.style.display = "none";
+      }
     }
-  };
+  }, []);
 
   const changeSubTaskStatus = useCallback(
     (taskId: number, subTaskId: number) => {
       dispatch(subTaskIsDone({ taskId, subTaskId }));
+      dispatch(updateTaskStatus({ taskId }));
     },
-
     [dispatch]
   );
 
@@ -85,7 +93,10 @@ export default function TodoCard({ todo }: TodoCardProps) {
         </div>
       </div>
       <div className="todo-card-progress-container">
-        <div className="todo-card-progress-header" onClick={showSubTasks}>
+        <div
+          className="todo-card-progress-header"
+          onClick={() => showSubTasks(todo.id)}
+        >
           <div className="todo-card-progress-header-left">
             <BsListUl size={22} />
             <span>Progress</span>
@@ -94,7 +105,7 @@ export default function TodoCard({ todo }: TodoCardProps) {
             {mappedSubTasks.todo}/{mappedSubTasks.done}
           </strong>
         </div>
-        <div className="todo-subtasks">
+        <div className={`todo-subtasks-${todo.id}`}>
           {mappedSubTasksTitle.map((subtask) => (
             <div
               className="subtasks"
@@ -107,7 +118,7 @@ export default function TodoCard({ todo }: TodoCardProps) {
           ))}
         </div>
         <div className="todo-card-progress-bar">
-          <div id="progress-bar" />
+          <div id={`progress-bar-${todo.id}`} />
         </div>
       </div>
       <div className="todo-card-footer">

@@ -1,12 +1,10 @@
 .todo-card-container {
   display: flex;
   align-items: center;
-  justify-content: center;
 
   flex-direction: column;
 
   width: 300px;
-  min-height: 186px;
 
   background-color: white;
 
@@ -106,23 +104,6 @@
   color: #948f8e;
 }
 
-.todo-subtasks {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: space-between;
-
-
-  width: 100%;
-
-  height: fit-content;
-
-  transition: height 1.2s;
-
-
-  font-weight: bold;
-
-}
 
 .todo-subtasks.hidden {
   display: none;
@@ -135,6 +116,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  font-weight: bold;
 
   cursor: pointer;
 

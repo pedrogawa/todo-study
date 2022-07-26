@@ -10,6 +10,10 @@ interface SubTaskIsDone {
   subTaskId: number;
 }
 
+interface UpdateTaskStatus {
+  taskId: number;
+}
+
 const initialState: TodoSliceState = {
   todos: [
     {
@@ -30,7 +34,30 @@ const initialState: TodoSliceState = {
         {
           id: 3,
           title: "Setup actions",
-          isDone: true,
+          isDone: false,
+        },
+      ],
+      status: "TODO",
+    },
+    {
+      id: 2,
+      title: "asdsad",
+      subtitle: "Configure React Redux",
+      tasks: [
+        {
+          id: 1,
+          title: "Cvzzxc",
+          isDone: false,
+        },
+        {
+          id: 2,
+          title: "Setsad",
+          isDone: false,
+        },
+        {
+          id: 3,
+          title: "Setqweqws",
+          isDone: false,
         },
       ],
       status: "TODO",
@@ -67,7 +94,36 @@ export const todoSlice = createSlice({
 
       state.todos = [...state.todos];
     },
+    updateTaskStatus: (state, action: PayloadAction<UpdateTaskStatus>) => {
+      const todoIndex = state.todos.findIndex(
+        (a) => a.id === action.payload.taskId
+      );
+
+      const taskTodo = state.todos[todoIndex].tasks.filter(
+        (a) => a.isDone === true
+      ).length;
+      const taskInProgress = state.todos[todoIndex].tasks.some(
+        (a) => a.isDone === true
+      );
+      const taskIsDone = state.todos[todoIndex].tasks.every(
+        (a) => a.isDone === true
+      );
+
+      if (taskTodo === 0) {
+        state.todos[todoIndex].status = "TODO";
+      }
+
+      if (taskInProgress) {
+        state.todos[todoIndex].status = "PROGRESS";
+      }
+
+      if (taskIsDone) {
+        state.todos[todoIndex].status = "DONE";
+      }
+
+      state.todos = [...state.todos];
+    },
   },
 });
 
-export const { addTodo, subTaskIsDone } = todoSlice.actions;
+export const { addTodo, subTaskIsDone, updateTaskStatus } = todoSlice.actions;

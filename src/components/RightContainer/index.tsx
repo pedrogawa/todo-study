@@ -1,16 +1,16 @@
+import { useMemo } from "react";
+
 import "./styles.css";
 
 import { AiOutlineCalendar } from "react-icons/ai";
 
 import { useSelector } from "react-redux";
-import { addTodo } from "../../hooks/Todo/todoSlice";
 
 import { showModal } from "../../utils/showModal";
 
 import { selectTodoCards } from "../../hooks/store";
 
 import TasksContainer from "../TasksContainer";
-import { useMemo } from "react";
 
 export default function RightContainer() {
   const todos = useSelector(selectTodoCards);
@@ -24,6 +24,10 @@ export default function RightContainer() {
       inProgress: {
         tasks: todos.filter((a) => a.status === "PROGRESS"),
         length: todos.filter((a) => a.status === "PROGRESS").length,
+      },
+      done: {
+        tasks: todos.filter((a) => a.status === "DONE"),
+        length: todos.filter((a) => a.status === "DONE").length,
       },
     };
   }, [todos]);
@@ -50,7 +54,11 @@ export default function RightContainer() {
           todos={mappedTodos.inProgress.tasks}
           onClick={showModal}
         />
-        <TasksContainer label="Done (3)" onClick={showModal} />
+        <TasksContainer
+          label={`Done (${mappedTodos.done.length})`}
+          todos={mappedTodos.done.tasks}
+          onClick={showModal}
+        />
       </div>
     </div>
   );
