@@ -1,5 +1,7 @@
 import { useCallback } from "react";
-import { useDispatch } from "react-redux";
+import { selectTodoCards } from "../../hooks/store";
+
+import { useSelector, useDispatch } from "react-redux";
 
 import { addTodo } from "../../hooks/Todo/todoSlice";
 
@@ -15,8 +17,6 @@ import {
 
 import { FormData, formSchema } from "../../utils/formDataObject";
 
-import { showModal } from "../../utils/showModal";
-
 import "./styles.css";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsPlus } from "react-icons/bs";
@@ -25,6 +25,8 @@ import { FormInput, DynamicInput } from "../FormInput";
 
 export default function AddTodoModal() {
   const dispatch = useDispatch();
+  const todos = useSelector(selectTodoCards);
+
   const methods = useForm<FormData>({
     resolver: yupResolver(formSchema),
   });
@@ -36,9 +38,24 @@ export default function AddTodoModal() {
 
   const { errors } = methods.formState;
 
+  const showModal = () => {
+    const modal = document.querySelector<HTMLElement>(
+      ".add-todo-container-modal"
+    );
+
+    methods.reset({ tasks: [], title: "", subtitle: "" });
+
+    if (modal) {
+      if (modal.classList.contains("hidden")) {
+        modal.classList.remove("hidden");
+      } else {
+        modal.classList.add("hidden");
+      }
+    }
+  };
+
   const handleForm: SubmitHandler<FormData> = useCallback(
     async ({ title, subtitle, tasks }) => {
-      console.log(title, subtitle, tasks);
       await new Promise((resolve) => setTimeout(resolve, 2000));
       const tasksMapped: Task[] = tasks.map((task, index) => {
         return {
@@ -50,7 +67,7 @@ export default function AddTodoModal() {
 
       dispatch(
         addTodo({
-          id: 2,
+          id: todos.length + 1,
           title,
           subtitle,
           tasks: tasksMapped,
@@ -58,7 +75,7 @@ export default function AddTodoModal() {
         })
       );
     },
-    [dispatch]
+    [dispatch, todos]
   );
 
   const addInput = () => {

@@ -1,15 +1,20 @@
-import { useEffect, useCallback, useMemo } from "react";
+import React, { useEffect, useCallback, useMemo } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
-import { subTaskIsDone, updateTaskStatus } from "../../hooks/Todo/todoSlice";
+import {
+  deleteTask,
+  subTaskIsDone,
+  updateTaskStatus,
+} from "../../hooks/Todo/todoSlice";
 import { selectTodoCards } from "../../hooks/store";
 
-import { BsListUl, BsThreeDots } from "react-icons/bs";
+import { BsListUl, BsTrash } from "react-icons/bs";
 import { AiOutlineCheck } from "react-icons/ai";
 
 import Todo from "../../interface/Todo";
 
 import "./styles.css";
+import { showModal } from "../../utils/showModal";
 
 interface TodoCardProps {
   todo: Todo;
@@ -60,42 +65,63 @@ export default function TodoCard({ todo }: TodoCardProps) {
     }
   }, [mappedSubTasks, todos]);
 
-  const showSubTasks = useCallback((id: number) => {
-    const subTask = document.querySelector<HTMLElement>(`.todo-subtasks-${id}`);
-
-    if (subTask) {
-      if (subTask.style.display === "none") {
-        subTask.style.display = "";
-        subTask.style.maxHeight = "fit-content";
-      } else {
-        subTask.style.display = "none";
+  const showSubTasks = useCallback(
+    (id: number, event: React.MouseEvent<HTMLDivElement>) => {
+      const subTask = document.querySelector<HTMLElement>(
+        `.todo-subtasks-${id}`
+      );
+      event.stopPropagation();
+      if (subTask) {
+        if (subTask.style.display === "none") {
+          subTask.style.display = "";
+          subTask.style.maxHeight = "fit-content";
+        } else {
+          subTask.style.display = "none";
+        }
       }
-    }
-  }, []);
+    },
+    []
+  );
 
   const changeSubTaskStatus = useCallback(
-    (taskId: number, subTaskId: number) => {
+    (
+      taskId: number,
+      subTaskId: number,
+      event: React.MouseEvent<HTMLDivElement>
+    ) => {
+      event.stopPropagation();
       dispatch(subTaskIsDone({ taskId, subTaskId }));
       dispatch(updateTaskStatus({ taskId }));
     },
     [dispatch]
   );
 
+  const onDeleteTask = (
+    taskId: number,
+    event: React.MouseEvent<HTMLDivElement>
+  ) => {
+    event.stopPropagation();
+    dispatch(deleteTask({ taskId }));
+  };
+
   return (
-    <div className="todo-card-container">
+    <div className="todo-card-container" onClick={showModal}>
       <div className="todo-card-header">
         <div className="todo-card-title">
           <strong>{todo.title}</strong>
           <span>{todo.subtitle}</span>
         </div>
-        <div className="todo-card-icon">
-          <BsThreeDots />
+        <div
+          className="todo-card-icon"
+          onClick={(e) => onDeleteTask(todo.id, e)}
+        >
+          <BsTrash />
         </div>
       </div>
       <div className="todo-card-progress-container">
         <div
           className="todo-card-progress-header"
-          onClick={() => showSubTasks(todo.id)}
+          onClick={(e) => showSubTasks(todo.id, e)}
         >
           <div className="todo-card-progress-header-left">
             <BsListUl size={22} />
@@ -110,7 +136,9 @@ export default function TodoCard({ todo }: TodoCardProps) {
             <div
               className="subtasks"
               key={subtask.id}
-              onClick={() => changeSubTaskStatus(todo.id, subtask.id)}
+              onClick={(event) =>
+                changeSubTaskStatus(todo.id, subtask.id, event)
+              }
             >
               <span>{subtask.title}</span>
               <span>{subtask.done ? <AiOutlineCheck /> : ""}</span>

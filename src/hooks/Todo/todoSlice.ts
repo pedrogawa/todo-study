@@ -123,7 +123,27 @@ export const todoSlice = createSlice({
 
       state.todos = [...state.todos];
     },
+    deleteTask: (state, action: PayloadAction<UpdateTaskStatus>) => {
+      const filteredTasks = state.todos.filter(
+        (task) => task.id !== action.payload.taskId
+      );
+
+      state.todos = filteredTasks;
+    },
+    selectTask: (state, action: PayloadAction<UpdateTaskStatus>) => {
+      const filteredTask = state.todos.filter(
+        (task) => task.id === action.payload.taskId
+      );
+
+      state.todos = filteredTask;
+    },
   },
 });
 
-export const { addTodo, subTaskIsDone, updateTaskStatus } = todoSlice.actions;
+export const {
+  addTodo,
+  selectTask,
+  deleteTask,
+  subTaskIsDone,
+  updateTaskStatus,
+} = todoSlice.actions;
