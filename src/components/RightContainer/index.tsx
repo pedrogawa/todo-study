@@ -15,6 +15,8 @@ import { showModal } from "../../utils/showModal";
 export default function RightContainer() {
   const todos = useSelector(selectTodoCards);
 
+  console.log("test");
+
   const mappedTodos = useMemo(() => {
     return {
       todos: {
