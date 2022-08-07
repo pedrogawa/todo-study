@@ -1,5 +1,5 @@
-import { useCallback } from "react";
-import { selectTodoCards } from "../../hooks/store";
+import { useCallback, useEffect } from "react";
+import { selectedTodo } from "../../hooks/store";
 
 import { useSelector, useDispatch } from "react-redux";
 
@@ -23,13 +23,25 @@ import { BsPlus } from "react-icons/bs";
 
 import { FormInput, DynamicInput } from "../FormInput";
 
-export default function AddTodoModal() {
+interface AddTodoModalProps {
+  id: number;
+}
+
+export default function AddTodoModal({ id }: AddTodoModalProps) {
   const dispatch = useDispatch();
-  const todos = useSelector(selectTodoCards);
+  const selectedTask = useSelector(selectedTodo);
 
   const methods = useForm<FormData>({
     resolver: yupResolver(formSchema),
   });
+
+  useEffect(() => {
+    if (selectedTask) {
+      methods.setValue("title", `${selectedTask.title}`);
+      methods.setValue("subtitle", `${selectedTask.subtitle}`);
+      methods.setValue("tasks", selectedTask.tasks);
+    }
+  }, [selectedTask, methods]);
 
   const { fields, append } = useFieldArray({
     name: "tasks",
@@ -38,7 +50,7 @@ export default function AddTodoModal() {
 
   const { errors } = methods.formState;
 
-  const showModal = () => {
+  const showModal = useCallback(() => {
     const modal = document.querySelector<HTMLElement>(
       ".add-todo-container-modal"
     );
@@ -52,11 +64,10 @@ export default function AddTodoModal() {
         modal.classList.add("hidden");
       }
     }
-  };
+  }, [methods]);
 
   const handleForm: SubmitHandler<FormData> = useCallback(
-    async ({ title, subtitle, tasks }) => {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+    ({ title, subtitle, tasks }) => {
       const tasksMapped: Task[] = tasks.map((task, index) => {
         return {
           id: index,
@@ -65,17 +76,21 @@ export default function AddTodoModal() {
         };
       });
 
-      dispatch(
-        addTodo({
-          id: todos.length + 1,
-          title,
-          subtitle,
-          tasks: tasksMapped,
-          status: "TODO",
-        })
-      );
+      if (tasksMapped.length > 0) {
+        dispatch(
+          addTodo({
+            id: 0,
+            title,
+            subtitle,
+            tasks: tasksMapped,
+            status: "TODO",
+          })
+        );
+
+        showModal();
+      }
     },
-    [dispatch, todos]
+    [dispatch, showModal]
   );
 
   const addInput = () => {
@@ -113,7 +128,9 @@ export default function AddTodoModal() {
                 />
               ))}
             </div>
-            <button type="submit">Submit</button>
+            <button type="submit" className="submit-button">
+              Submit
+            </button>
           </form>
         </FormProvider>
       </div>

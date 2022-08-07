@@ -6,11 +6,11 @@ interface Task {
 }
 
 export const formSchema = Yup.object().shape({
-  title: Yup.string().required("Title is required"),
-  subtitle: Yup.string().required("Subtitle is required"),
+  title: Yup.string().required("Title is required."),
+  subtitle: Yup.string().required("Subtitle is required."),
   tasks: Yup.array().of(
     Yup.object().shape({
-      title: Yup.string(),
+      title: Yup.string().required("Title for subtask is required."),
       isDone: Yup.boolean(),
     })
   ),

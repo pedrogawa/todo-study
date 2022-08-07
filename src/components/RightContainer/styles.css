@@ -4,6 +4,7 @@
   align-items: flex-start;
   justify-content: space-between;
 
+  width: 100%;
 
   flex-direction: column;
 
@@ -47,10 +48,11 @@
 
 .right-content-tasks {
   display: flex;
-  align-items: center;
   justify-content: center;
 
+
   flex-direction: row;
+  width: 100%;
 }
 
 .right-content-tasks > div:not(:first-child) {

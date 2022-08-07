@@ -1,7 +1,7 @@
 import React from "react";
 import "./styles.css";
 import { FieldError, useFormContext } from "react-hook-form";
-import { BiError, BiRegistered } from "react-icons/bi";
+import { BiError } from "react-icons/bi";
 
 interface FormInputProps {
   name: string;
@@ -45,17 +45,19 @@ const DynamicInput = React.forwardRef<FormInputProps, any>(
     console.log(error);
 
     return (
-      <div className="subtask-input-container">
-        <input id={`tasks[${id}]title`} {...register(`tasks.${id}.title`)} />
+      <>
+        <div className="subtask-input-container">
+          <input id={`tasks[${id}]title`} {...register(`tasks.${id}.title`)} />
+        </div>
         {error ? (
-          <div className="error-message-container">
+          <div className="error-message-container-dynamic">
             <BiError size={26} />
             {error.message}
           </div>
         ) : (
           <div className="error-message-placeholder" />
         )}
-      </div>
+      </>
     );
   }
 );

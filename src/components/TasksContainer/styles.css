@@ -37,10 +37,16 @@
     width: 50%;
 }
 
+.task-container-cards > div:not(:first-child) {
+  margin-top: 1rem;
+}
+
 .tasks-container-add-new {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+
+  margin-bottom: 1rem;
 
   width: 100%;
 
@@ -61,7 +67,4 @@
   border-radius: 50%;
 }
 
-.task-container-cards > div:not(:first-child) {
-  margin-top: 1rem;
-}
 

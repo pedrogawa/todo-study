@@ -45,6 +45,20 @@
   margin-top: 0.3rem;
 }
 
+.error-message-container-dynamic {
+  display: flex;
+  align-items: center;
+
+  margin-bottom: 0.5rem;
+
+  font-weight: bold;
+
+  color: red;
+
+  margin-top: 0.3rem;
+}
+
+
 
 
 .error-message-placeholder {

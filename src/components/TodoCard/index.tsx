@@ -3,6 +3,7 @@ import React, { useEffect, useCallback, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   deleteTask,
+  selectTask,
   subTaskIsDone,
   updateTaskStatus,
 } from "../../hooks/Todo/todoSlice";
@@ -104,10 +105,14 @@ export default function TodoCard({ todo }: TodoCardProps) {
     dispatch(deleteTask({ taskId }));
   };
 
+  const onSelect = (taskId: number) => {
+    dispatch(selectTask({ taskId }));
+  };
+
   return (
     <div className="todo-card-container" onClick={showModal}>
       <div className="todo-card-header">
-        <div className="todo-card-title">
+        <div className="todo-card-title" onClick={() => onSelect(todo.id)}>
           <strong>{todo.title}</strong>
           <span>{todo.subtitle}</span>
         </div>

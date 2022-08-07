@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 
 import "./styles.css";
 
@@ -6,6 +6,7 @@ import { BsPlus, BsListTask } from "react-icons/bs";
 import { GoTasklist } from "react-icons/go";
 import { RiDashboardFill } from "react-icons/ri";
 import { FaTasks } from "react-icons/fa";
+
 import { useMediaQuery } from "../../utils/useMediaQuery";
 
 export default function Sidebar() {

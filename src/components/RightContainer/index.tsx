@@ -2,15 +2,15 @@ import { useMemo } from "react";
 
 import "./styles.css";
 
+import { BsPlus } from "react-icons/bs";
 import { AiOutlineCalendar } from "react-icons/ai";
 
 import { useSelector } from "react-redux";
-
-import { showModal } from "../../utils/showModal";
-
 import { selectTodoCards } from "../../hooks/store";
 
 import TasksContainer from "../TasksContainer";
+
+import { showModal } from "../../utils/showModal";
 
 export default function RightContainer() {
   const todos = useSelector(selectTodoCards);
@@ -43,21 +43,24 @@ export default function RightContainer() {
           </div>
         </div>
       </div>
+      <div className="tasks-container-add-new" onClick={showModal}>
+        <div className="tasks-container-add-new-button">
+          <BsPlus />
+        </div>
+        <strong>Add new task</strong>
+      </div>
       <div className="right-content-tasks">
         <TasksContainer
           label={`To do (${mappedTodos.todos.length})`}
           todos={mappedTodos.todos.tasks}
-          onClick={showModal}
         />
         <TasksContainer
           label={`In progress (${mappedTodos.inProgress.length})`}
           todos={mappedTodos.inProgress.tasks}
-          onClick={showModal}
         />
         <TasksContainer
           label={`Done (${mappedTodos.done.length})`}
           todos={mappedTodos.done.tasks}
-          onClick={showModal}
         />
       </div>
     </div>

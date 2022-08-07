@@ -3,6 +3,7 @@ import Todo from "../../interface/Todo";
 
 interface TodoSliceState {
   todos: Todo[];
+  selectedTodo: Todo;
 }
 
 interface SubTaskIsDone {
@@ -63,6 +64,13 @@ const initialState: TodoSliceState = {
       status: "TODO",
     },
   ],
+  selectedTodo: {
+    id: 0,
+    status: "TODO",
+    tasks: [],
+    subtitle: "",
+    title: "",
+  },
 };
 
 export const todoSlice = createSlice({
@@ -73,7 +81,7 @@ export const todoSlice = createSlice({
       state.todos = [
         ...state.todos,
         {
-          id: state.todos.length + 1,
+          id: state.todos[state.todos.length - 1].id + 1,
           status: action.payload.status,
           subtitle: action.payload.subtitle,
           tasks: action.payload.tasks,
@@ -131,11 +139,11 @@ export const todoSlice = createSlice({
       state.todos = filteredTasks;
     },
     selectTask: (state, action: PayloadAction<UpdateTaskStatus>) => {
-      const filteredTask = state.todos.filter(
+      const filteredTask = state.todos.findIndex(
         (task) => task.id === action.payload.taskId
       );
 
-      state.todos = filteredTask;
+      state.selectedTodo = state.todos[filteredTask];
     },
   },
 });

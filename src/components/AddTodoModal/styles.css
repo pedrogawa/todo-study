@@ -49,10 +49,6 @@
   background-color: white;
 }
 
-button {
-  margin-top: 5rem;
-}
-
 .new-subtask-container {
   display: flex;
   align-items: center;
@@ -99,6 +95,19 @@ button {
   width: 300px;
 
   outline: none;
+}
+
+.submit-button {
+  margin-top: 1rem;
+
+  font-weight: bold;
+  border-radius: 0.4rem;
+
+  padding: 0.4rem 0.8rem;
+
+  cursor: pointer;
+
+  border: none;
 }
 
 
