@@ -42,8 +42,6 @@ const DynamicInput = React.forwardRef<FormInputProps, any>(
   ({ id, error }: DynamicInputProps, ref) => {
     const { register } = useFormContext();
 
-    console.log(error);
-
     return (
       <>
         <div className="subtask-input-container">

@@ -106,6 +106,7 @@ export default function TodoCard({ todo }: TodoCardProps) {
   };
 
   const onSelect = (taskId: number) => {
+    console.log(taskId);
     dispatch(selectTask({ taskId }));
   };
 

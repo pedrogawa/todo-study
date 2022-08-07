@@ -78,16 +78,31 @@ export const todoSlice = createSlice({
   initialState,
   reducers: {
     addTodo: (state, action: PayloadAction<Todo>) => {
-      state.todos = [
-        ...state.todos,
-        {
-          id: state.todos[state.todos.length - 1].id + 1,
-          status: action.payload.status,
+      const index = state.todos.findIndex(
+        (todo) => todo.id === state.selectedTodo.id
+      );
+
+      if (index > -1) {
+        state.todos[index] = {
+          id: state.selectedTodo.id,
+          status: state.todos[index].status,
           subtitle: action.payload.subtitle,
           tasks: action.payload.tasks,
           title: action.payload.title,
-        },
-      ];
+        };
+        state.todos = [...state.todos];
+      } else {
+        state.todos = [
+          ...state.todos,
+          {
+            id: state.todos[state.todos.length - 1].id + 1,
+            status: action.payload.status,
+            subtitle: action.payload.subtitle,
+            tasks: action.payload.tasks,
+            title: action.payload.title,
+          },
+        ];
+      }
     },
     subTaskIsDone: (state, action: PayloadAction<SubTaskIsDone>) => {
       const todoIndex = state.todos.findIndex(
@@ -139,11 +154,20 @@ export const todoSlice = createSlice({
       state.todos = filteredTasks;
     },
     selectTask: (state, action: PayloadAction<UpdateTaskStatus>) => {
-      const filteredTask = state.todos.findIndex(
-        (task) => task.id === action.payload.taskId
-      );
-
-      state.selectedTodo = state.todos[filteredTask];
+      if (action.payload.taskId !== 0) {
+        const filteredTask = state.todos.findIndex(
+          (task) => task.id === action.payload.taskId
+        );
+        state.selectedTodo = state.todos[filteredTask];
+      } else {
+        state.selectedTodo = {
+          id: 0,
+          status: "TODO",
+          tasks: [],
+          subtitle: "",
+          title: "",
+        };
+      }
     },
   },
 });

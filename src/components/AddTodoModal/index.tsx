@@ -3,7 +3,7 @@ import { selectedTodo } from "../../hooks/store";
 
 import { useSelector, useDispatch } from "react-redux";
 
-import { addTodo } from "../../hooks/Todo/todoSlice";
+import { addTodo, selectTask } from "../../hooks/Todo/todoSlice";
 
 import { Task } from "../../interface/Todo";
 
@@ -23,11 +23,7 @@ import { BsPlus } from "react-icons/bs";
 
 import { FormInput, DynamicInput } from "../FormInput";
 
-interface AddTodoModalProps {
-  id: number;
-}
-
-export default function AddTodoModal({ id }: AddTodoModalProps) {
+export default function AddTodoModal() {
   const dispatch = useDispatch();
   const selectedTask = useSelector(selectedTodo);
 
@@ -56,15 +52,12 @@ export default function AddTodoModal({ id }: AddTodoModalProps) {
     );
 
     methods.reset({ tasks: [], title: "", subtitle: "" });
+    dispatch(selectTask({ taskId: 0 }));
 
     if (modal) {
-      if (modal.classList.contains("hidden")) {
-        modal.classList.remove("hidden");
-      } else {
-        modal.classList.add("hidden");
-      }
+      modal.classList.add("hidden");
     }
-  }, [methods]);
+  }, [methods, dispatch]);
 
   const handleForm: SubmitHandler<FormData> = useCallback(
     ({ title, subtitle, tasks }) => {

@@ -12,7 +12,7 @@ function App() {
       <div className="App">
         <Sidebar />
         <RightContainer />
-        <AddTodoModal id={0} />
+        <AddTodoModal />
       </div>
     </Provider>
   );
