@@ -4,6 +4,7 @@ import Todo from "../../interface/Todo";
 interface TodoSliceState {
   todos: Todo[];
   selectedTodo: Todo;
+  filteredTodos: Todo[];
 }
 
 interface SubTaskIsDone {
@@ -71,6 +72,7 @@ const initialState: TodoSliceState = {
     subtitle: "",
     title: "",
   },
+  filteredTodos: [],
 };
 
 export const todoSlice = createSlice({

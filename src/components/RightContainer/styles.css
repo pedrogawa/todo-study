@@ -2,7 +2,6 @@
 .right-container {
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
 
   width: 100%;
 
@@ -50,11 +49,11 @@
   display: flex;
   justify-content: center;
 
+  flex-wrap: wrap;
 
   flex-direction: row;
   width: 100%;
 }
 
-.right-content-tasks > div:not(:first-child) {
-  margin-left: 6rem;
-}
+
+

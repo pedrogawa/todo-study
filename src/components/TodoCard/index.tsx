@@ -106,14 +106,21 @@ export default function TodoCard({ todo }: TodoCardProps) {
   };
 
   const onSelect = (taskId: number) => {
-    console.log(taskId);
     dispatch(selectTask({ taskId }));
   };
 
   return (
-    <div className="todo-card-container" onClick={showModal}>
+    <div
+      className="todo-card-container"
+      onClick={(event) => {
+        showModal();
+        event.stopPropagation();
+
+        onSelect(todo.id);
+      }}
+    >
       <div className="todo-card-header">
-        <div className="todo-card-title" onClick={() => onSelect(todo.id)}>
+        <div className="todo-card-title">
           <strong>{todo.title}</strong>
           <span>{todo.subtitle}</span>
         </div>

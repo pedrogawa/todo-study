@@ -1,5 +1,6 @@
 .tasks-container {
   display: flex;
+  
   align-items: center;
   justify-content: flex-start;
 
@@ -9,13 +10,32 @@
 
   padding: 1.2rem;
 
+  margin-right: 6rem;
+
+  margin-top: 1.4rem;
+
   width: fit-content;
 
   min-height: 700px;
   min-width: 330px;
 
 
+  transition: all 0.4s;
+
+
+
   flex-direction: column;
+}
+
+@media (max-width: 800px) {
+  .tasks-container {
+    margin-right: 0;
+  }
+}
+
+.tasks-container.hidden {
+  min-height: 30px;
+  transition: all 0.4s;
 }
 
 
@@ -35,6 +55,10 @@
     align-items: center;
 
     width: 50%;
+}
+
+.task-container-cards.hidden{
+  display: none;
 }
 
 .task-container-cards > div:not(:first-child) {

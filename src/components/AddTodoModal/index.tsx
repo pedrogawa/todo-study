@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from "react";
-import { selectedTodo } from "../../hooks/store";
+import { selectTodoCards } from "../../hooks/store";
 
 import { useSelector, useDispatch } from "react-redux";
 
@@ -25,19 +25,19 @@ import { FormInput, DynamicInput } from "../FormInput";
 
 export default function AddTodoModal() {
   const dispatch = useDispatch();
-  const selectedTask = useSelector(selectedTodo);
+  const todos = useSelector(selectTodoCards);
 
   const methods = useForm<FormData>({
     resolver: yupResolver(formSchema),
   });
 
   useEffect(() => {
-    if (selectedTask) {
-      methods.setValue("title", `${selectedTask.title}`);
-      methods.setValue("subtitle", `${selectedTask.subtitle}`);
-      methods.setValue("tasks", selectedTask.tasks);
+    if (todos.selectedTodo) {
+      methods.setValue("title", `${todos.selectedTodo.title}`);
+      methods.setValue("subtitle", `${todos.selectedTodo.subtitle}`);
+      methods.setValue("tasks", todos.selectedTodo.tasks);
     }
-  }, [selectedTask, methods]);
+  }, [todos.selectedTodo, methods]);
 
   const { fields, append } = useFieldArray({
     name: "tasks",
