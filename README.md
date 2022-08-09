@@ -1,1 +1,1 @@
-A todo list project for the purposes of studying using React Redux, Redux Thunks, React-Hook-Form and Yup. (Work in progress)
+A todo list project for the purposes of studying using React Redux, Redux Thunks, React-Hook-Form and Yup. 
