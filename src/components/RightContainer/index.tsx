@@ -43,11 +43,11 @@ export default function RightContainer() {
           </div>
         </div>
       </div>
-      <div className="tasks-container-add-new" onClick={showModal}>
+      <div className="tasks-container-add-new">
         <div className="tasks-container-add-new-button">
           <BsPlus />
         </div>
-        <strong>Add new task</strong>
+        <strong onClick={showModal}>Add new task</strong>
       </div>
       <div className="right-content-tasks">
         <TasksContainer

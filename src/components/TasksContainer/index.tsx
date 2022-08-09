@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Todo from "../../interface/Todo";
 import { useMediaQuery } from "../../utils/useMediaQuery";
 
@@ -17,6 +18,33 @@ export default function TasksContainer({
   id,
 }: TasksContainerProps) {
   const isSmall = useMediaQuery("(max-width: 980px)");
+
+  useEffect(() => {
+    let taskContainer =
+      document.querySelectorAll<HTMLElement>(`.tasks-container`);
+
+    let container = Array.from(taskContainer);
+
+    if (isSmall) {
+      for (let i = 0; i < container.length; i++) {
+        if (!container[i].classList.contains("hidden")) {
+          container[i].classList.add("hidden");
+          container[i]
+            .querySelector<HTMLElement>(".task-container-cards")
+            ?.classList.add("hidden");
+        }
+      }
+    } else {
+      for (let i = 0; i < container.length; i++) {
+        if (container[i].classList.contains("hidden")) {
+          container[i].classList.remove("hidden");
+          container[i]
+            .querySelector<HTMLElement>(".task-container-cards")
+            ?.classList.remove("hidden");
+        }
+      }
+    }
+  }, [isSmall]);
 
   const hideContainer = (
     id: string,
